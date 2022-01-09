@@ -48,8 +48,7 @@ if (!$found) {
     $res = restPost($content4Host)
     $statusCode = $res.StatusCode
     if ($statusCode -notmatch '2[0-9]{2}') {
-        $errorDetails = Out-String -InputObject $res
-        $content4PostError += Out-String -InputObject $errorDetails
+        $content4PostError += Out-String -InputObject $res
         restPost($content4PostError)
     }
     exit
@@ -59,8 +58,7 @@ if ($isDebug) {
     $res = restPost($content4Host)
     Write-Output (Out-String -InputObject $res)
     if ($res.StatusCode -match '2[0-9]{2}') {
-        $errorDetails = Out-String -InputObject $res
-        $content4PostError += Out-String -InputObject $errorDetails
+        $content4PostError += Out-String -InputObject $res
         restPost($content4PostError)
     }
 }
