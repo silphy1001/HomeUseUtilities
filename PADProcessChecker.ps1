@@ -39,28 +39,25 @@ function restPost([string]$content) {
     }
     $payloadData = $payload | ConvertTo-Json
     $payloadJson = [System.Text.Encoding]::UTF8.GetBytes($payloadData)
-    return Invoke-WebRequest -Uri $hookUrl -Method Post -Body $payloadJson -ContentType 'application/json'
+
+    $res = Invoke-WebRequest -Uri $hookUrl -Method Post -Body $payloadJson -ContentType 'application/json; charset=utf-8'
+    if ($res.StatusCode -notmatch '[1-2][0-9]{2}') {
+        $content4PostError += Out-String -InputObject $res
+        restPost($content4PostError)
+        exit
+    }
 }
 
 # check PAD.Console.Host.exe
 $found = Get-Process -Name $PADHost -ErrorAction SilentlyContinue
 if (!$found) {
     $res = restPost($content4Host)
-    $statusCode = $res.StatusCode
-    if ($statusCode -notmatch '2[0-9]{2}') {
-        $content4PostError += Out-String -InputObject $res
-        restPost($content4PostError)
-    }
     exit
 }
 
 if ($isDebug) {
     $res = restPost($content4Host)
     Write-Output (Out-String -InputObject $res)
-    if ($res.StatusCode -match '2[0-9]{2}') {
-        $content4PostError += Out-String -InputObject $res
-        restPost($content4PostError)
-    }
 }
 
 exit
