@@ -28,4 +28,4 @@ Collection of home use utilities
 * This is a part of RPA system made by me.
   * The flow defined in PAD gets detailed statements of ETC at every 15th.
   * This script checks the status of the flow before execution.
-  * PAD'S script is managed on OneDriver Personal.
+  * PAD's script is managed on OneDriver Personal.
